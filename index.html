@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script  src="https://code.jquery.com/jquery-3.7.1.min.js"></script>                  
+    </head>
+<body>    
+    <div class="div50left">
+        <div  id="divsorteio">
+            <div class="title"><h2>Sorteio - <span id="datenow"></span><button id="sort">Sortear</button></h2></div>        
+            
+            <div style="display: inline-block; width: 48%;">
+                <div>
+                    <h2 style="color: blue;">Time A <div id="somaRankingA" class="badge badge-big">?</div></h2>
+                </div>
+                <div id="sortTimeA"></div>
+            </div>
+            <div style="display: inline-block; width: 48%; margin-left: 15px;">
+                <div>
+                    <h2 style="color: red;">Time B <div id="somaRankingB" class="badge badge-big">?</div></h2>
+                </div>
+                <div id="sortTimeB"></div>
+            </div>
+        </div>
+        <div><button onclick="printSorteio()">Imprimir</button></div>
+    </div>
+
+    <div class="div50left">
+        <div class="title"><h2>Ranking</h2></div>
+        <div style="display: inline-block; width: 48%;">
+            <div><center>
+                <h3>Defesa</h3>
+            </center>
+                <span>Esse considera as 3 características 
+                    (Velocidade/Habilidade/Marcação) com peso maior para marcação</span></div>            
+            <div id="rankingDefesa"></div>
+        </div>
+        
+        <div style="display: inline-block; width: 48%; margin-left: 15px;">
+            <div><center>
+                <h3>Ataque</h3>
+            </center>
+                <span>Esse considera as 3 características 
+                    (Velocidade/Habilidade/Marcação) com peso maior para habilidade</span>
+            </div>
+            <div id="rankingAtaque"></div>
+        </div>
+    </div>
+
+    
+    <div class="div50">    
+        <h2>Classificação jogadores</h2>   
+        <div>
+
+        </div> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Jogador</th>
+                    <th>Posição</th>
+                    <th>Velocidade</th>
+                    <th>Habilidade</th>
+                    <th>Marcação</th>
+                    <th>Score defesa</th>
+                    <th>Score ataque</th>
+                    <th>Score geral</th>
+                </tr>
+            </thead>
+            <tbody id="classjogadores">
+                <tr class="tpljogador" style="display: none;">
+                    <td>#JOGADOR</td>
+                    <td>#POSICAO</td>
+                    <td>
+                        #STARVEL                        
+                    </td>
+                    <td>
+                        #STARHAB
+                    </td>
+                    <td>
+                        #STARMAR
+                    </td>
+                    <td>#SCORED</td>
+                    <td>#SCOREA</td>
+                    <td>#SCORE</td>
+                </tr>                    
+            </tbody>
+        </table>
+    </div>
+</body>
+<script  src="script.js"></script>  
+</html>
