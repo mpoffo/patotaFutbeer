@@ -78,7 +78,7 @@ function sortear() {
 
     var somaScoreA = somaRanking(timeA);
     var somaScoreB = somaRanking(timeB);
-    var diff = timeA - timeB
+    var diff = somaScoreA - somaScoreB
     console.log(diff);
     if(diff < -3) { //Time B mais forte
         alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
