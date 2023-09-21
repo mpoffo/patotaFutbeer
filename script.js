@@ -43,7 +43,7 @@ $("#sort").click(function() {
    ############  Funções ###########
 */
 
-function sortear() {    
+function sortear(ignoreAlert) {    
     $("#datenow").html(new Date().toLocaleDateString("pt-BR"));
     goleiros = misturaAleatoria(goleiros);
     defensores = misturaAleatoria(defensores);
@@ -79,24 +79,30 @@ function sortear() {
     var somaScoreA = somaRanking(timeA);
     var somaScoreB = somaRanking(timeB);
     var diff = somaScoreA - somaScoreB
-        setTimeout("trataTimeForte("+diff+")", 1000);
+
+    
+    console.log("Diferença sorteio: ", diff);
+    if(diff < -3 || diff > 3) {
+        if(!ignoreAlert){
+            trataTimeForte(diff);
+        } else {
+            setTimeout("sortear(true);",200);
+        }
+    }
 
     ordenaEPrintaLinhaJogador("#sortTimeA", timeA, "SCORE");
     ordenaEPrintaLinhaJogador("#sortTimeB", timeB, "SCORE");
 
-    $("#somaRankingA").html(somaScoreA);
-    $("#somaRankingB").html(somaScoreB);
+    $("#somaRankingA").html("Score: " + somaScoreA);
+    $("#somaRankingB").html("Score: " + somaScoreB);
 }
 
-function trataTimeForte(diff) {    
-    console.log("Diferença sorteio: ",diff);
-    if(diff < -3) { //Time B mais forte
-        alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
-        sortear();
-    } else if(diff > 3) { //Time A mais forte
-        alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
-        sortear();
-    }
+function trataTimeForte(diff) {         
+    $("#alertsorteio").show(1000);        
+    setTimeout(function(){
+        $("#alertsorteio").hide();            
+        sortear(true);
+    }, 5000);    
 }
 
 function calculaScoreJogador(posicao, jogador) {
