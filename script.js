@@ -68,8 +68,7 @@ function sortear() {
         }
     });
 
-    atacantes.forEach(function(atacante, i) {
-        debugger;
+    atacantes.forEach(function(atacante, i) {        
         if(i%2==0){
             timeA.push(atacante);
         } else {
@@ -79,6 +78,15 @@ function sortear() {
 
     var somaScoreA = somaRanking(timeA);
     var somaScoreB = somaRanking(timeB);
+    var diff = timeA - timeB
+    console.log(diff);
+    if(diff < -3) { //Time B mais forte
+        alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
+        sortear();
+    } else if(diff > 3) { //Time A mais forte
+        alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
+        sortear();
+    }
 
     ordenaEPrintaLinhaJogador("#sortTimeA", timeA, "SCORE");
     ordenaEPrintaLinhaJogador("#sortTimeB", timeB, "SCORE");
