@@ -79,7 +79,17 @@ function sortear() {
     var somaScoreA = somaRanking(timeA);
     var somaScoreB = somaRanking(timeB);
     var diff = somaScoreA - somaScoreB
-    console.log(diff);
+        setTimeout("trataTimeForte("+diff+")", 1000);
+
+    ordenaEPrintaLinhaJogador("#sortTimeA", timeA, "SCORE");
+    ordenaEPrintaLinhaJogador("#sortTimeB", timeB, "SCORE");
+
+    $("#somaRankingA").html(somaScoreA);
+    $("#somaRankingB").html(somaScoreB);
+}
+
+function trataTimeForte(diff) {    
+    console.log("Diferença sorteio: ",diff);
     if(diff < -3) { //Time B mais forte
         alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
         sortear();
@@ -87,12 +97,6 @@ function sortear() {
         alert("Time B muito forte, sorteio será refeito automaticamente (diferença "+(diff*-1)+")");
         sortear();
     }
-
-    ordenaEPrintaLinhaJogador("#sortTimeA", timeA, "SCORE");
-    ordenaEPrintaLinhaJogador("#sortTimeB", timeB, "SCORE");
-
-    $("#somaRankingA").html(somaScoreA);
-    $("#somaRankingB").html(somaScoreB);
 }
 
 function calculaScoreJogador(posicao, jogador) {
