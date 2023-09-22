@@ -24,7 +24,7 @@
     padding-left: 17px;
     text-align: left;
     position: relative;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .nome {
@@ -68,7 +68,7 @@ td, th {
 
 img {
     border-radius: 50%;
-    width: 60px;
+    width: 50px;
     margin-top: 5px;
 }
 
@@ -85,9 +85,9 @@ img {
   }
 
 .badge-big {
-    font-size: 20px;    
-    margin-right: 50%;    
-    margin-top: 0px;
+    font-size: 20px;
+    margin-right: 50%;
+    margin-top: -50px;
 }
 
   button {

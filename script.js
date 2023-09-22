@@ -1,5 +1,5 @@
-var PESOS_ATAQUE = {    VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 };
 var PESOS_DEFESA = {    VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 };
+var PESOS_ATAQUE = {    VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 };
 
 var jogadores = [
     { nome: "Marcos",   dentro: "true", predomicancia: "GOL",    velocidade: "****",   habilidade: "***",      marcacao: "****"    },
@@ -19,13 +19,13 @@ var jogadores = [
 ];
 
 var goleiros = [...jogadores].filter(function(j) {return j.predomicancia=="GOL"});
-var atacantes = [...jogadores].filter(function(j) {return j.predomicancia=="ATAQUE"});
 var defensores = [...jogadores].filter(function(j) {return j.predomicancia=="DEFESA"});
+var atacantes = [...jogadores].filter(function(j) {return j.predomicancia=="ATAQUE"});
 
 //Calcula o score de ataque e defesa
 jogadores.forEach(function(jogador) {
-    jogador.scoreAtaque = calculaScoreJogador("ATAQUE", jogador);
     jogador.scoreDefesa = calculaScoreJogador("DEFESA", jogador);    
+    jogador.scoreAtaque = calculaScoreJogador("ATAQUE", jogador);
     jogador.score = parseFloat(((jogador.scoreAtaque + jogador.scoreDefesa) / 2).toFixed(2));
 });
 

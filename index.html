@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
+        <title>Patota Futbeer</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="style.css">
         <script  src="https://code.jquery.com/jquery-3.7.1.min.js"></script>     
@@ -9,7 +10,7 @@
 <body>    
     <div class="div50left">
         <div  id="divsorteio">
-            <div class="title"><h2>Sorteio - <span id="datenow"></span><button id="sort">Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button></h2></div>        
+            <div class="title"><h2>Sorteio - <span id="datenow"></span><button title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE" id="sort">Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button></h2></div>        
             <div id="alertsorteio" style="display: none;" class="alert alert-warning">
                 <strong>Diferença entre os times muito alta (>3)!</strong><br>
                 Sorteio será refeito automaticamente em 5s;
@@ -18,13 +19,15 @@
             
             <div style="display: inline-block; width: 48%;">
                 <div>
-                    <h2 style="color: blue;">Time A <div id="somaRankingA" class="badge badge-big">?</div></h2>
+                    <h2 style="color: blue;">Time A </h2> 
+                    <div title="Soma do score geral do time A" id="somaRankingA" class="badge badge-big">?</div>
                 </div>
                 <div id="sortTimeA"></div>
             </div>
             <div style="display: inline-block; width: 48%; margin-left: 15px;">
                 <div>
-                    <h2 style="color: red;">Time B <div id="somaRankingB" class="badge badge-big">?</div></h2>
+                    <h2 style="color: red;">Time B </h2>
+                    <div title="Soma do score geral do time B" id="somaRankingB" class="badge badge-big">?</div>
                 </div>
                 <div id="sortTimeB"></div>
             </div>
@@ -37,18 +40,16 @@
     <div class="div50left">
         <div class="title"><h2>Ranking</h2></div>
         <div style="display: inline-block; width: 48%;">
-            <div><center>
+            <div>
                 <h3>Defesa</h3>
-            </center>
                 <span>Esse considera as 3 características 
                     (Velocidade/Habilidade/Marcação) com peso maior para marcação</span></div>            
             <div id="rankingDefesa"></div>
         </div>
         
         <div style="display: inline-block; width: 48%; margin-left: 15px;">
-            <div><center>
-                <h3>Ataque</h3>
-            </center>
+            <div>
+                <h3>Ataque</h3>            
                 <span>Esse considera as 3 características 
                     (Velocidade/Habilidade/Marcação) com peso maior para habilidade</span>
             </div>
@@ -58,7 +59,9 @@
 
     
     <div>    
-        <h2>Classificação jogadores</h2>   
+        <div>
+            <h2>Classificação jogadores</h2>   
+        </div>
         <table>
             <thead>
                 <tr>
@@ -67,9 +70,9 @@
                     <th>Velocidade</th>
                     <th>Habilidade</th>
                     <th>Marcação</th>
-                    <th>Score defesa</th>
-                    <th>Score ataque</th>
-                    <th>Score geral</th>
+                    <th title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 ">Score defesa <i class="fa-solid fa-question fa-shake"></i></th>
+                    <th title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 ">Score ataque <i class="fa-solid fa-question fa-shake"></i></th>
+                    <th title="Soma dos scores de ataque + defesa / 2">Score geral <i class="fa-solid fa-question fa-shake"></i></th>
                 </tr>
             </thead>
             <tbody id="classjogadores">
