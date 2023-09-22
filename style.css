@@ -93,14 +93,14 @@ img {
   button {
     float: right;
     margin-right: 10px;
-    width: 100px;
+    width: 168px;
     background-color: #4CAF50;
     border: none;
     color: #FFFFFF;
     padding: 5px 10px;
     text-align: center;
     -webkit-transition-duration: 0.4s;
-    transition-duration: 0.4s;    
+    transition-duration: 0.4s;
     font-size: 16px;
     cursor: pointer;
   }
