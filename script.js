@@ -1,21 +1,27 @@
+futbeerApp = angular.module('futbeerApp', []);
+
+futbeerApp.controller('FutbeerCtrl', function FutbeerCtrl($scope) {
+
+});
+
 var PESOS_DEFESA = {    VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 };
 var PESOS_ATAQUE = {    VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 };
 
 var jogadores = [
-    { nome: "Marcos",   dentro: "true", predomicancia: "GOL",    velocidade: "****",   habilidade: "***",      marcacao: "****"    },
-    { nome: "Patrick",  dentro: "true", predomicancia: "GOL",    velocidade: "*",      habilidade: "***",      marcacao: "****"    },
-    { nome: "Rodrigo",  dentro: "true", predomicancia: "DEFESA", velocidade: "****",   habilidade: "***",      marcacao: "****"    },  
-    { nome: "Poffo",    dentro: "true", predomicancia: "DEFESA", velocidade: "****",   habilidade: "**",       marcacao: "***"     },
-    { nome: "Maicon",   dentro: "true", predomicancia: "DEFESA", velocidade: "**",     habilidade: "*",        marcacao: "*****"   },    
-    { nome: "Fabio",    dentro: "true", predomicancia: "DEFESA", velocidade: "*",      habilidade: "*",        marcacao: "****"    },
-    { nome: "Edelei",   dentro: "true", predomicancia: "DEFESA", velocidade: "**",     habilidade: "**",       marcacao: "**"      },
-    { nome: "Chapolin", dentro: "true", predomicancia: "DEFESA", velocidade: "****",   habilidade: "***",      marcacao: "***"     },
-    { nome: "Maninho",  dentro: "true", predomicancia: "ATAQUE", velocidade: "*****",  habilidade: "****",     marcacao: "*****"   },
-    { nome: "Sergio",   dentro: "true", predomicancia: "ATAQUE", velocidade: "***",    habilidade: "***",      marcacao: "*"       },
-    { nome: "Lucas",    dentro: "true", predomicancia: "ATAQUE", velocidade: "***",    habilidade: "***",      marcacao: "***"     },
-    { nome: "Duca",     dentro: "true", predomicancia: "ATAQUE", velocidade: "**",     habilidade: "***",      marcacao: "***"     },
-    { nome: "Ricardo",  dentro: "true", predomicancia: "ATAQUE", velocidade: "*****",  habilidade: "*****",    marcacao: "*****"   },
-    { nome: "Henrique", dentro: "true", predomicancia: "ATAQUE", velocidade: "****",   habilidade: "**",      marcacao: "**" }
+    { nome: "Marcos",   dentro: "true", listPriority:0, predomicancia: "GOL",    velocidade: "****",   habilidade: "***",      marcacao: "****"    },
+    { nome: "Patrick",  dentro: "true", listPriority:0, predomicancia: "GOL",    velocidade: "*",      habilidade: "***",      marcacao: "****"    },
+    { nome: "Rodrigo",  dentro: "true", listPriority:1, predomicancia: "DEFESA", velocidade: "****",   habilidade: "***",      marcacao: "****"    },  
+    { nome: "Poffo",    dentro: "true", listPriority:1, predomicancia: "DEFESA", velocidade: "****",   habilidade: "**",       marcacao: "***"     },
+    { nome: "Maicon",   dentro: "true", listPriority:1, predomicancia: "DEFESA", velocidade: "**",     habilidade: "*",        marcacao: "*****"   },    
+    { nome: "Fabio",    dentro: "true", listPriority:1, predomicancia: "DEFESA", velocidade: "*",      habilidade: "*",        marcacao: "****"    },
+    { nome: "Edelei",   dentro: "true", listPriority:1, predomicancia: "DEFESA", velocidade: "**",     habilidade: "**",       marcacao: "**"      },
+    { nome: "Chapolin", dentro: "true", listPriority:1, predomicancia: "DEFESA", velocidade: "****",   habilidade: "***",      marcacao: "***"     },
+    { nome: "Maninho",  dentro: "true", listPriority:2, predomicancia: "ATAQUE", velocidade: "*****",  habilidade: "****",     marcacao: "*****"   },
+    { nome: "Sergio",   dentro: "true", listPriority:2, predomicancia: "ATAQUE", velocidade: "***",    habilidade: "***",      marcacao: "*"       },
+    { nome: "Lucas",    dentro: "true", listPriority:2, predomicancia: "ATAQUE", velocidade: "***",    habilidade: "***",      marcacao: "***"     },
+    { nome: "Duca",     dentro: "true", listPriority:2, predomicancia: "ATAQUE", velocidade: "**",     habilidade: "***",      marcacao: "***"     },
+    { nome: "Ricardo",  dentro: "true", listPriority:2, predomicancia: "ATAQUE", velocidade: "*****",  habilidade: "*****",    marcacao: "*****"   },
+    { nome: "Henrique", dentro: "true", listPriority:2, predomicancia: "ATAQUE", velocidade: "****",   habilidade: "**",      marcacao: "**" }
 ];
 
 var goleiros = [...jogadores].filter(function(j) {return j.predomicancia=="GOL"});
@@ -193,13 +199,7 @@ function toStars(stars) {
 
 function ordenaEPrintaLinhaJogador(div, lista, scoreType) {
     $(div).html("");
-    lista.sort(function(j1,j2) {
-        if(scoreType == "DEFESA")
-                return j2.scoreDefesa - j1.scoreDefesa;
-        else if(scoreType == "ATAQUE") 
-            return j2.scoreAtaque - j1.scoreAtaque;
-        else return j2.score - j1.score;
-    });
+    lista.sort((j1,j2)=>j1.listPriority-j2.listPriority);
     lista.forEach(function(jogador) {
         var score = 0;
         if(scoreType == "DEFESA")
@@ -208,7 +208,7 @@ function ordenaEPrintaLinhaJogador(div, lista, scoreType) {
             score = jogador.scoreAtaque;
         else score = jogador.score;
         $(div)
-        .append('<div class="row"><img src="img/'+jogador.nome+'.png"><span class="nome">'+padR20(jogador.nome) + '</span> <span class="badge">Score: ' + score).append("</span></div>");
+        .append('<div class="row"><div class="col"><img src="img/'+jogador.nome+'.png"><span class="nome">'+padR20(jogador.nome) + '</span></div><div class="col-auto"><span class="badge">Score: ' + score).append("</span></div></div>");
     });
 }
 

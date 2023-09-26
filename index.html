@@ -1,111 +1,172 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-    <head>
-        <title>Patota Futbeer</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="style.css">
-        <script  src="https://code.jquery.com/jquery-3.7.1.min.js"></script>     
-        <script src="https://kit.fontawesome.com/94372f3cb2.js" crossorigin="anonymous"></script>             
-    </head>
-<body>    
-    <div class="div50left">
-        <div  id="divsorteio">
-            <div class="title"><h2>Sorteio - <span id="datenow"></span><button title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE" id="sort">Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button></h2></div>        
-            <div id="alertsorteio" style="display: none;" class="alert alert-warning">
-                <strong>Diferença entre os times muito alta (>3)!</strong><br>
-                Sorteio será refeito automaticamente em 5s;
-                <div class="loader"></div>
-              </div>
-            
-            <div style="display: inline-block; width: 48%;">
-                <div>
-                    <h2 style="color: blue;">Time A </h2> 
-                    <div title="Soma do score geral do time A" id="somaRankingA" class="badge badge-big">?</div>
+<html lang="pt-BR" ng-app="futbeerApp">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Patota Futbeer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/94372f3cb2.js" crossorigin="anonymous"></script>
+</head>
+
+<body ng-controller="FutbeerCtrl">
+    <div class="container-fluid">
+        <!--Sorteio e Ranking posições-->
+        <div class="row">
+            <div class="col"> <!-- ROW 1 LEFT-->
+                <div class="row title" id="divsorteio">
+                    <div class="col">
+                        <h2>Sorteio - <span class="data" id="datenow"></span>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-success"
+                            title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE"
+                            id="sort">Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button>
+                    </div>
                 </div>
-                <div id="sortTimeA"></div>
+                <div class="row"> <!--Alert-->
+                    <div class="col">
+                        <div id="alertsorteio" class="alert alert-warning" style="display: none;">
+                            <strong>Diferença entre os times muito alta (>3)!</strong><br>
+                            Sorteio será refeito automaticamente em 5s;
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col blue">
+                                <div class="subtitle">Time A (azul)</div>
+                            </div>
+                            <div class="col-auto">
+                                <div title="Soma do score geral do time A" id="somaRankingA" class="badge badge-big">?
+                                </div>
+                            </div>
+                        </div>
+                        <div id="sortTimeA"></div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col red">
+                                <div class="subtitle">Time B (vermelho)</div>
+                            </div>
+                            <div class="col-auto">
+                                <div title="Soma do score geral do time B" id="somaRankingB" class="badge badge-big">?</div>
+                            </div>
+                        </div>
+                        <div id="sortTimeB"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-success" onclick="printSorteio()">Imprimir <i class="fa-solid fa-print fa-shake"></i></button>
+                    </div>
+                </div>
+
             </div>
-            <div style="display: inline-block; width: 48%; margin-left: 15px;">
-                <div>
-                    <h2 style="color: red;">Time B </h2>
-                    <div title="Soma do score geral do time B" id="somaRankingB" class="badge badge-big">?</div>
+
+            <div class="col"> <!-- ROW 1 RIGHT-->
+                <div class="row title">
+                    <div class="col">
+                        <h2>Ranking</h2>
+                    </div>
                 </div>
-                <div id="sortTimeB"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="subtitle">Defesa</div>
+                        <span>Esse considera as 3 características
+                            (Velocidade/Habilidade/Marcação) com peso maior para marcação</span>
+                    </div>
+                    <div class="col">
+                        <div class="subtitle">Ataque</div>
+                        <span>Esse considera as 3 características
+                            (Velocidade/Habilidade/Marcação) com peso maior para habilidade</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" id="rankingDefesa"></div>
+                    <div class="col" id="rankingAtaque"></div>
+                </div>
             </div>
         </div>
-        <div>
-            <button onclick="printSorteio()">Imprimir <i class="fa-solid fa-print fa-shake"></i></button>
+    </div>
+    <!--Sorteio e Ranking posições-->
+
+    <!--Classificação geral jogadores-->
+    <div class="row">
+        <div class="col">
+            <div>
+                <h2>Classificação jogadores</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Jogador</th>
+                        <th>Posição</th>
+                        <th>Velocidade</th>
+                        <th>Habilidade</th>
+                        <th>Marcação</th>
+                        <th
+                            title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 ">
+                            Score defesa <i class="fa-solid fa-question fa-shake"></i></th>
+                        <th
+                            title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 ">
+                            Score ataque <i class="fa-solid fa-question fa-shake"></i></th>
+                        <th title="Soma dos scores de ataque + defesa / 2">Score geral <i
+                                class="fa-solid fa-question fa-shake"></i></th>
+                    </tr>
+                </thead>
+                <tbody id="classjogadores">
+                    <tr class="tpljogador" style="display: none;">
+                        <td>#JOGADOR</td>
+                        <td>#POSICAO</td>
+                        <td>
+                            #STARVEL
+                        </td>
+                        <td>
+                            #STARHAB
+                        </td>
+                        <td>
+                            #STARMAR
+                        </td>
+                        <td>#SCORED</td>
+                        <td>#SCOREA</td>
+                        <td>#SCORE</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+    <!--Classificação geral jogadores-->
+    <!--Roadmap-->
+    <div class="row">
+        <div class="col">
+            <h2>Roadmap</h2>
+            <ul>
+                <li>No sorteio exibir na ordem goleiro/defensores/atacantes (DONE)</li>
+                <li>Prever faltas</li>
+                <li>Prever convidados</li>
+                <li>Flexibilizar estrelas</li>
+                <li>Layout responsivo (DONE)</li>
+            </ul>
+        </div>
+    </div>
     </div>
 
-    <div class="div50left">
-        <div class="title"><h2>Ranking</h2></div>
-        <div style="display: inline-block; width: 48%;">
-            <div>
-                <h3>Defesa</h3>
-                <span>Esse considera as 3 características 
-                    (Velocidade/Habilidade/Marcação) com peso maior para marcação</span></div>            
-            <div id="rankingDefesa"></div>
-        </div>
-        
-        <div style="display: inline-block; width: 48%; margin-left: 15px;">
-            <div>
-                <h3>Ataque</h3>            
-                <span>Esse considera as 3 características 
-                    (Velocidade/Habilidade/Marcação) com peso maior para habilidade</span>
-            </div>
-            <div id="rankingAtaque"></div>
-        </div>
-    </div>
-
-    
-    <div>    
-        <div>
-            <h2>Classificação jogadores</h2>   
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Jogador</th>
-                    <th>Posição</th>
-                    <th>Velocidade</th>
-                    <th>Habilidade</th>
-                    <th>Marcação</th>
-                    <th title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 ">Score defesa <i class="fa-solid fa-question fa-shake"></i></th>
-                    <th title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 ">Score ataque <i class="fa-solid fa-question fa-shake"></i></th>
-                    <th title="Soma dos scores de ataque + defesa / 2">Score geral <i class="fa-solid fa-question fa-shake"></i></th>
-                </tr>
-            </thead>
-            <tbody id="classjogadores">
-                <tr class="tpljogador" style="display: none;">
-                    <td>#JOGADOR</td>
-                    <td>#POSICAO</td>
-                    <td>
-                        #STARVEL                        
-                    </td>
-                    <td>
-                        #STARHAB
-                    </td>
-                    <td>
-                        #STARMAR
-                    </td>
-                    <td>#SCORED</td>
-                    <td>#SCOREA</td>
-                    <td>#SCORE</td>
-                </tr>                    
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <h2>Roadmap</h2>
-        <ul>
-            <li>No sorteio exibir na ordem goleiro/defensores/atacantes</li>
-            <li>Prever faltas</li>
-            <li>Prever convidados</li>
-            <li>Flexibilizar estrelas</li>
-            <li>Layout responsivo</li>
-        </ul>
-         
-    </div>
 </body>
-<script  src="script.js"></script>  
+<script src="script.js"></script>
+
 </html>
