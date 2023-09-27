@@ -6,35 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Patota Futbeer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/94372f3cb2.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/94372f3cb2.js"></script>
 </head>
 
 <body ng-controller="FutbeerCtrl">
     <div class="container-fluid">
-        <!--Sorteio e Ranking posições-->
         <div class="row">
-            <div class="col"> <!-- ROW 1 LEFT-->
+            <!--Sorteio-->
+            <div class="col">
                 <div class="row title" id="divsorteio">
                     <div class="col">
-                        <h2>Sorteio - <span class="data" id="datenow"></span>
+                        <h2>Sorteio - <span class="data" ng-bind="hoje | date:'dd/MM/yyyy'"></span>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-success"
+                        <button class="btn btn-success" ng-click="sortear()"
                             title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE"
                             id="sort">Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="row"> <!--Alert-->
                     <div class="col">
@@ -52,11 +48,20 @@
                                 <div class="subtitle">Time A (azul)</div>
                             </div>
                             <div class="col-auto">
-                                <div title="Soma do score geral do time A" id="somaRankingA" class="badge badge-big">?
+                                <div title="Soma do score geral do time A" class="badge badge-big">{{somaScoreA}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row" ng-repeat="jogador in timeA">
+                                <div class="col">
+                                    <img src="{{jogador.getFoto()}}">
+                                    <span>{{jogador.nome}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <span class="badge">Score: {{jogador.score}}</span>
                                 </div>
                             </div>
                         </div>
-                        <div id="sortTimeA"></div>
                     </div>
                     <div class="col">
                         <div class="row">
@@ -64,21 +69,31 @@
                                 <div class="subtitle">Time B (vermelho)</div>
                             </div>
                             <div class="col-auto">
-                                <div title="Soma do score geral do time B" id="somaRankingB" class="badge badge-big">?</div>
+                                <div title="Soma do score geral do time B" class="badge badge-big">{{somaScoreB}}</div>
                             </div>
                         </div>
-                        <div id="sortTimeB"></div>
+                        <div>
+                            <div class="row" ng-repeat="jogador in timeB">
+                                <div class="col">
+                                    <img src="{{jogador.getFoto()}}">
+                                    <span>{{jogador.nome}}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <span class="badge">Score: {{jogador.score}}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
-                        <button class="btn btn-success" onclick="printSorteio()">Imprimir <i class="fa-solid fa-print fa-shake"></i></button>
+                    <div class="col-auto">
+                        <button class="btn btn-success" onclick="printSorteio()">Imprimir <i
+                                class="fa-solid fa-print fa-shake"></i></button>
                     </div>
                 </div>
-
             </div>
-
-            <div class="col"> <!-- ROW 1 RIGHT-->
+            <!--Ranking posições-->
+            <div class="col">
                 <div class="row title">
                     <div class="col">
                         <h2>Ranking</h2>
@@ -97,8 +112,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col" id="rankingDefesa"></div>
-                    <div class="col" id="rankingAtaque"></div>
+                    <div class="col">
+                        <div class="row" ng-repeat="jogador in defensores">
+                            <div class="col">
+                                <img src="{{jogador.getFoto()}}">
+                                <span>{{jogador.nome}}</span>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge">Score: {{jogador.scoreDefesa}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row" ng-repeat="jogador in atacantes">
+                            <div class="col">
+                                <img src="{{jogador.getFoto()}}">
+                                <span>{{jogador.nome}}</span>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge">Score: {{jogador.scoreAtaque}}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,13 +143,20 @@
     <!--Classificação geral jogadores-->
     <div class="row">
         <div class="col">
-            <div>
-                <h2>Classificação jogadores</h2>
+            <div class="row">
+                <div class="col">
+                    <h2>Classificação jogadores (Total: {{jogadores.length}} Dentro: {{qtdJogadoresDentro()}})</h2>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-success" ng-click="reset()"                            
+                        >Resetar classificação <i class="fa-solid fa-refresh fa-shake"></i></button>
+                </div>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>Jogador</th>
+                        <th>Dentro</th>
                         <th>Posição</th>
                         <th>Velocidade</th>
                         <th>Habilidade</th>
@@ -130,24 +172,46 @@
                     </tr>
                 </thead>
                 <tbody id="classjogadores">
-                    <tr class="tpljogador" style="display: none;">
-                        <td>#JOGADOR</td>
-                        <td>#POSICAO</td>
+                    <tr ng-repeat="jogador in jogadores track by $index">
+                        <td ng-if="!jogador.convidado"><img src="{{jogador.getFoto()}}"> {{jogador.nome}}</td>
+                        <td ng-if="jogador.convidado"><input type="text" class="form-control" placeholder="Nome" ng-model="jogador.nome" ng-change="updateStorage()"></td>
                         <td>
-                            #STARVEL
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" ng-model="jogador.dentro">
+                            </div>
                         </td>
                         <td>
-                            #STARHAB
+                            <select class="form-select" ng-model="jogador.predominancia">
+                                <option selected>Selecione</option>
+                                <option value="GOL">Gol</option>
+                                <option value="DEFESA">Defesa</option>
+                                <option value="ATAQUE">Ataque</option>
+                            </select>
                         </td>
                         <td>
-                            #STARMAR
+                            <div star-rating rating-value="jogador.velocidade" max="5"
+                                on-rating-selected="updateVelocidadeJogador(jogador, rating)"></div>
                         </td>
-                        <td>#SCORED</td>
-                        <td>#SCOREA</td>
-                        <td>#SCORE</td>
+                        <td>
+                            <div star-rating rating-value="jogador.habilidade" max="5"
+                                on-rating-selected="updateHabilidadeJogador(jogador, rating)"></div>
+                        </td>
+                        <td>
+                            <div star-rating rating-value="jogador.marcacao" max="5"
+                                on-rating-selected="updateMarcacaoJogador(jogador, rating)"></div>
+                        </td>
+                        <td>{{jogador.scoreDefesa}}</td>
+                        <td>{{jogador.scoreAtaque}}</td>
+                        <td>{{jogador.score}}</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-auto">
+            <button class="btn btn-success" ng-click="addConvidado()">Incluir convidado <i
+                    class="fa-solid fa-plus fa-shake"></i></button>
         </div>
     </div>
     <!--Classificação geral jogadores-->
@@ -167,6 +231,8 @@
     </div>
 
 </body>
-<script src="script.js"></script>
+<script src="app.js"></script>
+<script src="jogador.js"></script>
+<script src="starsDirective.js"></script>
 
 </html>
