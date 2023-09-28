@@ -24,7 +24,7 @@
             <div class="col">
                 <div class="row title" id="divsorteio">
                     <div class="col">
-                        <h2>Sorteio - <span class="data" ng-bind="hoje | date:'dd/MM/yyyy'"></span>
+                        <h2>Sorteio - <span class="data" ng-bind="patotaData.dataSorteio | date:'dd/MM/yyyy'"></span>
                     </div>
                     <div class="col-auto">
                         <button class="btn btn-success" ng-click="sortear()"
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div>
-                            <div class="row" ng-repeat="jogador in timeA">
+                            <div class="row" ng-repeat="jogador in patotaData.timeA">
                                 <div class="col">
                                     <img src="{{jogador.getFoto()}}">
                                     <span>{{jogador.nome}}</span>
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div>
-                            <div class="row" ng-repeat="jogador in timeB">
+                            <div class="row" ng-repeat="jogador in patotaData.timeB">
                                 <div class="col">
                                     <img src="{{jogador.getFoto()}}">
                                     <span>{{jogador.nome}}</span>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="row" ng-repeat="jogador in defensores">
+                        <div class="row" ng-repeat="jogador in patotaData.defensores">
                             <div class="col">
                                 <img src="{{jogador.getFoto()}}">
                                 <span>{{jogador.nome}}</span>
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="row" ng-repeat="jogador in atacantes">
+                        <div class="row" ng-repeat="jogador in patotaData.atacantes">
                             <div class="col">
                                 <img src="{{jogador.getFoto()}}">
                                 <span>{{jogador.nome}}</span>
@@ -145,7 +145,7 @@
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <h2>Classificação jogadores (Total: {{jogadores.length}} Dentro: {{qtdJogadoresDentro()}})</h2>
+                    <h2>Classificação jogadores (Total: {{patotaData.jogadores.length}} Dentro: {{qtdJogadoresDentro()}})</h2>
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-success" ng-click="reset()"                            
@@ -172,16 +172,16 @@
                     </tr>
                 </thead>
                 <tbody id="classjogadores">
-                    <tr ng-repeat="jogador in jogadores track by $index">
+                    <tr ng-repeat="jogador in patotaData.jogadores track by $index">
                         <td ng-if="!jogador.convidado"><img src="{{jogador.getFoto()}}"> {{jogador.nome}}</td>
                         <td ng-if="jogador.convidado"><input type="text" class="form-control" placeholder="Nome" ng-model="jogador.nome" ng-change="updateStorage()"></td>
                         <td>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" ng-model="jogador.dentro">
+                                <input class="form-check-input" type="checkbox" ng-model="jogador.dentro" ng-change="updateDatabase()">
                             </div>
                         </td>
                         <td>
-                            <select class="form-select" ng-model="jogador.predominancia">
+                            <select class="form-select" ng-model="jogador.predominancia" ng-change="updatePosicaoJogador(jogador, jogador.predominancia)">
                                 <option selected>Selecione</option>
                                 <option value="GOL">Gol</option>
                                 <option value="DEFESA">Defesa</option>
@@ -221,9 +221,9 @@
             <h2>Roadmap</h2>
             <ul>
                 <li>No sorteio exibir na ordem goleiro/defensores/atacantes (DONE)</li>
-                <li>Prever faltas</li>
-                <li>Prever convidados</li>
-                <li>Flexibilizar estrelas</li>
+                <li>Prever faltas (DONE)</li>
+                <li>Prever convidados (DONE)</li>
+                <li>Flexibilizar estrelas (DONE)</li>
                 <li>Layout responsivo (DONE)</li>
             </ul>
         </div>
@@ -232,6 +232,7 @@
 
 </body>
 <script src="app.js"></script>
+<script src="database.js"></script>
 <script src="jogador.js"></script>
 <script src="starsDirective.js"></script>
 

@@ -65,7 +65,7 @@ class Jogador {
 }
 
 Jogador.fromListJson = function (jsonList) {
-    return JSON.parse(jsonList)
+    return jsonList
         .map(j => Jogador.fromJSON(j));
 }
 

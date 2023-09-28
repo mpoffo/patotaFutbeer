@@ -1,44 +1,64 @@
 futbeerApp = angular.module('futbeerApp', []);
 
-futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout',
-    function FutbeerCtrl($scope, $timeout) {
-        $scope.hoje = new Date();
+futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
+    function FutbeerCtrl($scope, $timeout, $http, $filter) {
+        db = new Database($http);
+
         $scope.DIFMIN = 3;
 
-        $scope.updateStorage = function () {
-            localStorage.setItem('jogadores', JSON.stringify($scope.jogadores));
+        $scope.patotaData = { jogadores: [] };
+        $scope.patotaData.dataSorteio = "";
+
+        $scope.updateDatabase = function () {
+            db.update($scope.patotaData);
         }
 
         $scope.addConvidado = function (posicao) {
-            $scope.jogadores.push(new Jogador("Nome convidado", true, 3, posicao, 3, 3, 3, true));
-            $scope.updateStorage();
+            $scope.patotaData.jogadores.push(new Jogador("Nome convidado", true, 3, posicao, 3, 3, 3, true));
+            $scope.updateDatabase()
         }
 
         $scope.qtdJogadoresDentro = function () {
-            return $scope.jogadores.filter(j => j.dentro).length
+            return $scope.patotaData.jogadores.filter(j => j.dentro).length
         }
+
         $scope.updateHabilidadeJogador = function (jogador, rating) {
             jogador.updateHabilidade(rating);
-            $scope.updateStorage();
+            $scope.updateDatabase();
         }
+
         $scope.updateVelocidadeJogador = function (jogador, rating) {
             jogador.updateVelocidade(rating);
-            $scope.updateStorage();
+            $scope.updateDatabase();
         }
+
         $scope.updateMarcacaoJogador = function (jogador, rating) {
             jogador.updateMarcacao(rating);
-            $scope.updateStorage();
+            $scope.updateDatabase();
         }
 
         $scope.qtdDefesaDentro = function () {
-            return $scope.jogadores.filter(j => j.predominancia == "DEFESA" && j.dentro).length
+            return $scope.patotaData.jogadores.filter(j => j.predominancia == "DEFESA" && j.dentro).length
         }
+
         $scope.qtdAtaqueDentro = function () {
-            return $scope.jogadores.filter(j => j.predominancia == "ATAQUE" && j.dentro).length
+            return $scope.patotaData.jogadores.filter(j => j.predominancia == "ATAQUE" && j.dentro).length
+        }
+
+        $scope.updatePosicaoJogador = function (jogador, posicao) {
+            if (posicao == "GOL") {
+                jogador.listPriority = 0;
+            } else if (posicao == "DEFESA") {
+                jogador.listPriority = 1;
+            } else {
+                jogador.listPriority = 2;
+            }
+            $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, 'listPriority');
+            $scope.updateDatabase();
         }
 
         $scope.reset = function () {
-            $scope.jogadores = [
+            $scope.patotaData.jogadores = [
                 new Jogador("Marcos", true, 0, "GOL", 4, 3, 4),
                 new Jogador("Patrick", true, 0, "GOL", 1, 3, 4),
                 new Jogador("Rodrigo", true, 1, "DEFESA", 4, 3, 4),
@@ -54,14 +74,14 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout',
                 new Jogador("Ricardo", true, 2, "ATAQUE", 5, 5, 5),
                 new Jogador("Henrique", true, 2, "ATAQUE", 4, 2, 2)
             ];
-            window.jogadores = $scope.jogadores;
+            window.jogadores = $scope.patotaData.jogadores;
 
-            $scope.goleiros = [];
-            $scope.defensores = [];
-            $scope.atacantes = [];
+            $scope.patotaData.goleiros = [];
+            $scope.patotaData.defensores = [];
+            $scope.patotaData.atacantes = [];
 
-            $scope.timeA = [];
-            $scope.timeB = [];
+            $scope.patotaData.timeA = [];
+            $scope.patotaData.timeB = [];
 
             if ($scope.qtdJogadoresDentro() % 2 != 0) {
                 if ($scope.qtdDefesaDentro() > $scope.qtdAtaqueDentro()) {
@@ -71,35 +91,50 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout',
                 }
             }
             $scope.populateDefensoresAtacantes();
-            localStorage.setItem('jogadores', JSON.stringify($scope.jogadores));
+            $scope.updateDatabase();
         }
 
         $scope.populateDefensoresAtacantes = function () {
-            $scope.goleiros = [...$scope.jogadores].filter(function (j) { return j.predominancia == "GOL" && j.dentro });
-            $scope.defensores = [...$scope.jogadores].filter(function (j) { return j.predominancia == "DEFESA" && j.dentro });
-            $scope.atacantes = [...$scope.jogadores].filter(function (j) { return j.predominancia == "ATAQUE" && j.dentro });
+            $scope.patotaData.goleiros = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "GOL" && j.dentro });
+            $scope.patotaData.defensores = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "DEFESA" && j.dentro });
+            $scope.patotaData.atacantes = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "ATAQUE" && j.dentro });
         }
 
-        $scope.jogadores = Jogador.fromListJson(localStorage.getItem('jogadores'));
-        if (!$scope.jogadores) {
-            $scope.reset();
-        }
-        window.jogadores = $scope.jogadores;
-        $scope.populateDefensoresAtacantes();
-
+        db.load().then(function (patotaData) {
+            patotaData.jogadores = Jogador.fromListJson(patotaData.jogadores);
+            patotaData.timeA = Jogador.fromListJson(patotaData.timeA);
+            patotaData.timeB = Jogador.fromListJson(patotaData.timeB);
+            $scope.patotaData = patotaData;
+            if (!$scope.patotaData.jogadores) {
+                $scope.reset();
+            }
+            $scope.populateDefensoresAtacantes();
+            $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, 'listPriority');
+        });
 
         $scope.sortear = function sortear(tentativa) {
+            $scope.patotaData.dataSorteio = new Date();
 
             if ($scope.qtdJogadoresDentro() % 2 != 0) {
                 alert("Sem sorteio com jogadores ímpares! Adicione um convidado.");
                 return;
             }
 
-            $scope.goleiros = misturaAleatoria($scope.goleiros);
-            $scope.defensores = misturaAleatoria($scope.defensores);
-            $scope.atacantes = misturaAleatoria($scope.atacantes);
-            $scope.timeA = [];
-            $scope.timeB = [];
+            if($scope.qtdAtaqueDentro() % 2 != 0) {
+                alert("Sem sorteio com quantidade e ATACANTES ímpares! Adicione um convidado atacante ou reclassifique os jogadores.");
+                return;
+            }
+
+            if($scope.qtdDefesaDentro() % 2 != 0) {
+                alert("Sem sorteio com quantidade e DEFENSORES ímpares! Adicione um convidado defensor ou reclassifique os jogadores.");
+                return;
+            }
+
+            $scope.patotaData.goleiros = misturaAleatoria($scope.patotaData.goleiros);
+            $scope.patotaData.defensores = misturaAleatoria($scope.patotaData.defensores);
+            $scope.patotaData.atacantes = misturaAleatoria($scope.patotaData.atacantes);
+            $scope.patotaData.timeA = [];
+            $scope.patotaData.timeB = [];
 
             if (!tentativa) tentativa = 1;
 
@@ -108,32 +143,32 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout',
                 console.log("Foram feitas 5 tentativas, mas não foi possível selecionar um time equilibrado. Diferença mínima elevada para " + $scope.DIFMIN);
             }
 
-            $scope.goleiros.forEach(function (goleiro, i) {
+            $scope.patotaData.goleiros.forEach(function (goleiro, i) {
                 if (i % 2 == 0) {
-                    $scope.timeA.push(goleiro);
+                    $scope.patotaData.timeA.push(goleiro);
                 } else {
-                    $scope.timeB.push(goleiro);
+                    $scope.patotaData.timeB.push(goleiro);
                 }
             });
 
-            $scope.defensores.forEach(function (defensor, i) {
+            $scope.patotaData.defensores.forEach(function (defensor, i) {
                 if (i % 2 == 0) {
-                    $scope.timeA.push(defensor);
+                    $scope.patotaData.timeA.push(defensor);
                 } else {
-                    $scope.timeB.push(defensor);
+                    $scope.patotaData.timeB.push(defensor);
                 }
             });
 
-            $scope.atacantes.forEach(function (atacante, i) {
+            $scope.patotaData.atacantes.forEach(function (atacante, i) {
                 if (i % 2 == 0) {
-                    $scope.timeA.push(atacante);
+                    $scope.patotaData.timeA.push(atacante);
                 } else {
-                    $scope.timeB.push(atacante);
+                    $scope.patotaData.timeB.push(atacante);
                 }
             });
 
-            $scope.somaScoreA = somaRanking($scope.timeA);
-            $scope.somaScoreB = somaRanking($scope.timeB);
+            $scope.somaScoreA = somaRanking($scope.patotaData.timeA);
+            $scope.somaScoreB = somaRanking($scope.patotaData.timeB);
             var diff = $scope.somaScoreA - $scope.somaScoreB
 
             if (diff < ($scope.DIFMIN * -1) || diff > $scope.DIFMIN) {
@@ -143,6 +178,10 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout',
                     $("#alertsorteio").hide();
                     $scope.sortear(tentativa++);
                 }, 5000);
+            } else {
+                $scope.patotaData.timeA = $filter('orderBy')($scope.patotaData.timeA, 'listPriority');
+                $scope.patotaData.timeB = $filter('orderBy')($scope.patotaData.timeB, 'listPriority');
+                $scope.updateDatabase();
             }
         }
 
