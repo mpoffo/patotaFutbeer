@@ -28,15 +28,11 @@
     font-size: 20px;
 }
 
+
+
 @media (max-width: 1150px) {
-    .subtitle {
-        font-size: 10px;
-    }
-    .data {
-        font-size: 10px;
-    }
-    .badge-big {
-        font-size: 12px;
+    .hide-mob {
+        display: none;
     }
 }
 
@@ -45,9 +41,11 @@
     margin: 0;
     padding: 0;
 }
+
 ul.rating {
     display: inline-block;
 }
+
 .rating li {
     list-style-type: none;
     display: inline-block;
@@ -55,13 +53,46 @@ ul.rating {
     text-align: center;
     font-weight: bold;
     cursor: pointer;
-    font-size:20px;
+    font-size: 18px;
 }
+
 .rating .filled {
     color: orangered;
 }
-.clear{
-  margin-top:20px;
+
+.clear {
+    margin-top: 20px;
+}
+
+
+@media (max-width: 1150px) {
+    .subtitle {
+        font-size: 14px;
+    }
+
+    .badge-big {
+        font-size: 12px;
+    }
+
+    .rating li {
+        font-size: 10px;
+    }
+}
+
+.placar {
+    width: 80px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.gols {
+    width: 55px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.plus-gol {
+    font-size: 40px;
 }
 
 td,

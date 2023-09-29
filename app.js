@@ -1,7 +1,7 @@
 futbeerApp = angular.module('futbeerApp', []);
 
 futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
-    function FutbeerCtrl($scope, $timeout, $http, $filter) {
+    function FutbeerCtrl($scope, $timeout, $http, $filter) {        
         db = new Database($http);
 
         $scope.DIFMIN = 3;
@@ -112,20 +112,37 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, 'listPriority');
         });
 
+        $scope.gol = function (jogador, acao, time) {
+            gol = acao == "+" ? +1 : -1;
+            jogador.gols += gol;
+            time == "timeA" ? $scope.patotaData.golsTimeA += gol : $scope.patotaData.golsTimeB += gol
+            $scope.updateDatabase();
+        }
+
+        $scope.zerarSorteioPlacar = function () {
+            $scope.patotaData.dataSorteio = "";
+            $scope.patotaData.golsTimeA = $scope.patotaData.golsTimeB = 0;
+            $scope.patotaData.jogadores.map(j => j.gols = 0);
+            $scope.patotaData.timeA = [];
+            $scope.patotaData.timeB = [];
+            $scope.updateDatabase();
+        }
+
         $scope.sortear = function sortear(tentativa) {
             $scope.patotaData.dataSorteio = new Date();
+            $scope.populateDefensoresAtacantes();
 
             if ($scope.qtdJogadoresDentro() % 2 != 0) {
                 alert("Sem sorteio com jogadores ímpares! Adicione um convidado.");
                 return;
             }
 
-            if($scope.qtdAtaqueDentro() % 2 != 0) {
+            if ($scope.qtdAtaqueDentro() % 2 != 0) {
                 alert("Sem sorteio com quantidade e ATACANTES ímpares! Adicione um convidado atacante ou reclassifique os jogadores.");
                 return;
             }
 
-            if($scope.qtdDefesaDentro() % 2 != 0) {
+            if ($scope.qtdDefesaDentro() % 2 != 0) {
                 alert("Sem sorteio com quantidade e DEFENSORES ímpares! Adicione um convidado defensor ou reclassifique os jogadores.");
                 return;
             }
@@ -135,6 +152,8 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             $scope.patotaData.atacantes = misturaAleatoria($scope.patotaData.atacantes);
             $scope.patotaData.timeA = [];
             $scope.patotaData.timeB = [];
+            $scope.patotaData.golsTimeA = 0;
+            $scope.patotaData.golsTimeB = 0;
 
             if (!tentativa) tentativa = 1;
 
@@ -144,6 +163,7 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             }
 
             $scope.patotaData.goleiros.forEach(function (goleiro, i) {
+                goleiro.gols = 0;
                 if (i % 2 == 0) {
                     $scope.patotaData.timeA.push(goleiro);
                 } else {
@@ -152,6 +172,7 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             });
 
             $scope.patotaData.defensores.forEach(function (defensor, i) {
+                defensor.gols = 0;
                 if (i % 2 == 0) {
                     $scope.patotaData.timeA.push(defensor);
                 } else {
@@ -160,6 +181,7 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             });
 
             $scope.patotaData.atacantes.forEach(function (atacante, i) {
+                atacante.gols = 0;
                 if (i % 2 == 0) {
                     $scope.patotaData.timeA.push(atacante);
                 } else {
@@ -241,13 +263,14 @@ function printSorteio() {
     a.document.write('<head> \
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> \
                 <link rel="stylesheet" href="style.css"> \
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"> \
                 <script  src="https://code.jquery.com/jquery-3.7.1.min.js"></script> \
                 </head>');
-    a.document.write('<body >');
+    a.document.write('<body><div class="row">');
     a.document.write(divContents);
-    a.document.write('</body></html>');
+    a.document.write('</div></body></html>');
     a.document.close();
-    setTimeout(function () { a.print(); }, 100);
+    setTimeout(function () { a.print(); }, 300);
     //a.print();
 }
 

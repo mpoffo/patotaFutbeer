@@ -3,7 +3,7 @@ class Jogador {
     static PESOS_DEFESA = { VELOCIDADE: 30, HABILIDADE: 20, MARCACAO: 50 };
     static PESOS_ATAQUE = { VELOCIDADE: 30, HABILIDADE: 45, MARCACAO: 25 };
 
-    constructor(nome, dentro, listPriority, predominancia, velocidade, habilidade, marcacao, convidado) {
+    constructor(nome, dentro, listPriority, predominancia, velocidade, habilidade, marcacao, convidado, gols) {
         this.nome = nome;
         this.dentro = dentro;
         this.listPriority = listPriority;
@@ -12,6 +12,7 @@ class Jogador {
         this.habilidade = habilidade;
         this.marcacao = marcacao;
         this.convidado = convidado;
+        this.gols = gols;
 
         this.calcAllScores();
     } 
@@ -70,5 +71,5 @@ Jogador.fromListJson = function (jsonList) {
 }
 
 Jogador.fromJSON = function(json) {
-    return new Jogador(json.nome, json.dentro, json.listPriority, json.predominancia, json.velocidade, json.habilidade, json.marcacao, json.convidado);
+    return new Jogador(json.nome, json.dentro, json.listPriority, json.predominancia, json.velocidade, json.habilidade, json.marcacao, json.convidado, json.gols);
 }

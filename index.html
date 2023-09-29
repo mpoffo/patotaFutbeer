@@ -10,27 +10,26 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/94372f3cb2.js"></script>
 </head>
 
 <body ng-controller="FutbeerCtrl">
     <div class="container-fluid">
-        <div class="row">
-            <!--Sorteio-->
-            <div class="col">
-                <div class="row title" id="divsorteio">
-                    <div class="col">
+        <div class="row"><!--Sorteio-->
+            <div class="col" id="divsorteio">
+                <div class="row title justify-content-center">
+                    <div class="col-10 text-center">
                         <h2>Sorteio - <span class="data" ng-bind="patotaData.dataSorteio | date:'dd/MM/yyyy'"></span>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto d-print-none">
                         <button class="btn btn-success" ng-click="sortear()"
-                            title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE"
-                            id="sort">Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button>
-                    </div>                    
+                            title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE">
+                            Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button>
+                        <button class="btn btn-success" ng-click="zerarSorteioPlacar()">Zerar<i
+                                class="fa-solid fa-trash fa-shake"></i></button>
+                    </div>
                 </div>
                 <div class="row"> <!--Alert-->
                     <div class="col">
@@ -44,11 +43,17 @@
                 <div class="row">
                     <div class="col">
                         <div class="row">
-                            <div class="col blue">
-                                <div class="subtitle">Time A (azul)</div>
+                            <div class="col blue text-center">
+                                <div class="subtitle">Time A</div>
                             </div>
                             <div class="col-auto">
-                                <div title="Soma do score geral do time A" class="badge badge-big">{{somaScoreA}}</div>
+                                <div title="Soma do score geral do time A"
+                                    class="badge badge-big hide-mob d-print-none">{{somaScoreA}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1 offset-10">
+                                <input type="text" ng-model="patotaData.golsTimeA" class="placar form-control" readonly>
                             </div>
                         </div>
                         <div>
@@ -57,19 +62,39 @@
                                     <img src="{{jogador.getFoto()}}">
                                     <span>{{jogador.nome}}</span>
                                 </div>
-                                <div class="col-auto">
-                                    <span class="badge">Score: {{jogador.score}}</span>
+                                <div class="col d-print-none">
+                                    <div class="row">
+                                        <div class="col" ng-click="gol(jogador,'-','timeA')">
+                                            <i class="fa-solid fa-minus plus-gol"></i>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" ng-model="jogador.gols" class="gols form-control"
+                                                readonly>
+                                        </div>
+                                        <div class="col" ng-click="gol(jogador,'+','timeA')">
+                                            <i class="fa-solid fa-plus plus-gol"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <span class="badge hide-mob d-print-none">Score: {{jogador.score}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="row">
-                            <div class="col red">
-                                <div class="subtitle">Time B (vermelho)</div>
+                            <div class="col red text-center">
+                                <div class="subtitle">Time B</div>
                             </div>
                             <div class="col-auto">
-                                <div title="Soma do score geral do time B" class="badge badge-big">{{somaScoreB}}</div>
+                                <div title="Soma do score geral do time B"
+                                    class="badge badge-big hide-mob d-print-none">{{somaScoreB}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                                <input type="text" ng-model="patotaData.golsTimeB" class="placar form-control" readonly>
                             </div>
                         </div>
                         <div>
@@ -78,8 +103,22 @@
                                     <img src="{{jogador.getFoto()}}">
                                     <span>{{jogador.nome}}</span>
                                 </div>
-                                <div class="col-auto">
-                                    <span class="badge">Score: {{jogador.score}}</span>
+                                <div class="col d-print-none">
+                                    <div class="row">
+                                        <div class="col" ng-click="gol(jogador,'-','timeB')">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" ng-model="jogador.gols" class="gols form-control"
+                                                readonly>
+                                        </div>
+                                        <div class="col" ng-click="gol(jogador,'+','timeB')">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <span class="badge hide-mob d-print-none">Score: {{jogador.score}}</span>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +131,8 @@
                     </div>
                 </div>
             </div>
-            <!--Ranking posições-->
+        </div>
+        <div class="row"><!--Ranking posições-->
             <div class="col">
                 <div class="row title">
                     <div class="col">
@@ -100,12 +140,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col hide-mob">
                         <div class="subtitle">Defesa</div>
                         <span>Esse considera as 3 características
                             (Velocidade/Habilidade/Marcação) com peso maior para marcação</span>
                     </div>
-                    <div class="col">
+                    <div class="col hide-mob">
                         <div class="subtitle">Ataque</div>
                         <span>Esse considera as 3 características
                             (Velocidade/Habilidade/Marcação) com peso maior para habilidade</span>
@@ -119,7 +159,7 @@
                                 <span>{{jogador.nome}}</span>
                             </div>
                             <div class="col-auto">
-                                <span class="badge">Score: {{jogador.scoreDefesa}}</span>
+                                <span class="badge hide-mob">Score: {{jogador.scoreDefesa}}</span>
                             </div>
                         </div>
                     </div>
@@ -130,106 +170,92 @@
                                 <span>{{jogador.nome}}</span>
                             </div>
                             <div class="col-auto">
-                                <span class="badge">Score: {{jogador.scoreAtaque}}</span>
+                                <span class="badge hide-mob">Score: {{jogador.scoreAtaque}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--Sorteio e Ranking posições-->
-
-    <!--Classificação geral jogadores-->
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h2>Classificação jogadores (Total: {{patotaData.jogadores.length}} Dentro: {{qtdJogadoresDentro()}})</h2>
+        <!--Classificação geral jogadores-->
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h2>Classificação jogadores (Total: {{patotaData.jogadores.length}} Dentro:
+                            {{qtdJogadoresDentro()}})</h2>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-success" ng-click="reset()">Resetar classificação <i
+                                class="fa-solid fa-refresh fa-shake"></i></button>
+                    </div>
                 </div>
-                <div class="col-auto">
-                    <button class="btn btn-success" ng-click="reset()"                            
-                        >Resetar classificação <i class="fa-solid fa-refresh fa-shake"></i></button>
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Jogador</th>
+                            <th>Dentro</th>
+                            <th>Posição</th>
+                            <th>Velocidade</th>
+                            <th>Habilidade</th>
+                            <th>Marcação</th>
+                            <th class="hide-mob"
+                                title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 ">
+                                Score defesa <i class="fa-solid fa-question fa-shake"></i></th>
+                            <th class="hide-mob"
+                                title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 ">
+                                Score ataque <i class="fa-solid fa-question fa-shake"></i></th>
+                            <th class="hide-mob" title="Soma dos scores de ataque + defesa / 2">Score geral <i
+                                    class="fa-solid fa-question fa-shake"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="classjogadores">
+                        <tr ng-repeat="jogador in patotaData.jogadores track by $index">
+                            <td ng-if="!jogador.convidado"><img src="{{jogador.getFoto()}}"> {{jogador.nome}}</td>
+                            <td ng-if="jogador.convidado"><input type="text" class="form-control" placeholder="Nome"
+                                    ng-model="jogador.nome" ng-change="updateStorage()"></td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" ng-model="jogador.dentro"
+                                        ng-change="updateDatabase()">
+                                </div>
+                            </td>
+                            <td>
+                                <select class="form-select" ng-model="jogador.predominancia"
+                                    ng-change="updatePosicaoJogador(jogador, jogador.predominancia)">
+                                    <option selected>Selecione</option>
+                                    <option value="GOL">Gol</option>
+                                    <option value="DEFESA">Defesa</option>
+                                    <option value="ATAQUE">Ataque</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div star-rating rating-value="jogador.velocidade" max="5"
+                                    on-rating-selected="updateVelocidadeJogador(jogador, rating)"></div>
+                            </td>
+                            <td>
+                                <div star-rating rating-value="jogador.habilidade" max="5"
+                                    on-rating-selected="updateHabilidadeJogador(jogador, rating)"></div>
+                            </td>
+                            <td>
+                                <div star-rating rating-value="jogador.marcacao" max="5"
+                                    on-rating-selected="updateMarcacaoJogador(jogador, rating)"></div>
+                            </td>
+                            <td class="hide-mob">{{jogador.scoreDefesa}}</td>
+                            <td class="hide-mob">{{jogador.scoreAtaque}}</td>
+                            <td class="hide-mob">{{jogador.score}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Jogador</th>
-                        <th>Dentro</th>
-                        <th>Posição</th>
-                        <th>Velocidade</th>
-                        <th>Habilidade</th>
-                        <th>Marcação</th>
-                        <th
-                            title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 20,    MARCACAO: 50 ">
-                            Score defesa <i class="fa-solid fa-question fa-shake"></i></th>
-                        <th
-                            title="Calculado utilizando as estrelas do jogador aplicando os pesos VELOCIDADE: 30,    HABILIDADE: 45,    MARCACAO: 25 ">
-                            Score ataque <i class="fa-solid fa-question fa-shake"></i></th>
-                        <th title="Soma dos scores de ataque + defesa / 2">Score geral <i
-                                class="fa-solid fa-question fa-shake"></i></th>
-                    </tr>
-                </thead>
-                <tbody id="classjogadores">
-                    <tr ng-repeat="jogador in patotaData.jogadores track by $index">
-                        <td ng-if="!jogador.convidado"><img src="{{jogador.getFoto()}}"> {{jogador.nome}}</td>
-                        <td ng-if="jogador.convidado"><input type="text" class="form-control" placeholder="Nome" ng-model="jogador.nome" ng-change="updateStorage()"></td>
-                        <td>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" ng-model="jogador.dentro" ng-change="updateDatabase()">
-                            </div>
-                        </td>
-                        <td>
-                            <select class="form-select" ng-model="jogador.predominancia" ng-change="updatePosicaoJogador(jogador, jogador.predominancia)">
-                                <option selected>Selecione</option>
-                                <option value="GOL">Gol</option>
-                                <option value="DEFESA">Defesa</option>
-                                <option value="ATAQUE">Ataque</option>
-                            </select>
-                        </td>
-                        <td>
-                            <div star-rating rating-value="jogador.velocidade" max="5"
-                                on-rating-selected="updateVelocidadeJogador(jogador, rating)"></div>
-                        </td>
-                        <td>
-                            <div star-rating rating-value="jogador.habilidade" max="5"
-                                on-rating-selected="updateHabilidadeJogador(jogador, rating)"></div>
-                        </td>
-                        <td>
-                            <div star-rating rating-value="jogador.marcacao" max="5"
-                                on-rating-selected="updateMarcacaoJogador(jogador, rating)"></div>
-                        </td>
-                        <td>{{jogador.scoreDefesa}}</td>
-                        <td>{{jogador.scoreAtaque}}</td>
-                        <td>{{jogador.score}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <button class="btn btn-success" ng-click="addConvidado()">Incluir convidado <i
+                        class="fa-solid fa-plus fa-shake"></i></button>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-auto">
-            <button class="btn btn-success" ng-click="addConvidado()">Incluir convidado <i
-                    class="fa-solid fa-plus fa-shake"></i></button>
-        </div>
-    </div>
-    <!--Classificação geral jogadores-->
-    <!--Roadmap-->
-    <div class="row">
-        <div class="col">
-            <h2>Roadmap</h2>
-            <ul>
-                <li>No sorteio exibir na ordem goleiro/defensores/atacantes (DONE)</li>
-                <li>Prever faltas (DONE)</li>
-                <li>Prever convidados (DONE)</li>
-                <li>Flexibilizar estrelas (DONE)</li>
-                <li>Layout responsivo (DONE)</li>
-            </ul>
-        </div>
-    </div>
-    </div>
-
 </body>
 <script src="app.js"></script>
 <script src="database.js"></script>
