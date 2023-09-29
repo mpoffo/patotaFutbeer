@@ -36,6 +36,15 @@
     }
 }
 
+@media (max-width: 1150px) {
+    .nome {
+        text-overflow: ellipsis;
+    }
+    img {
+        width: 35px;
+    }
+}
+
 .rating {
     color: #a9a9a9;
     margin: 0;
@@ -64,12 +73,7 @@ ul.rating {
     margin-top: 20px;
 }
 
-
 @media (max-width: 1150px) {
-    .subtitle {
-        font-size: 14px;
-    }
-
     .badge-big {
         font-size: 12px;
     }
@@ -88,10 +92,6 @@ ul.rating {
 .gols {
     width: 55px;
     text-align: center;
-    font-size: 25px;
-}
-
-.plus-gol {
     font-size: 25px;
 }
 

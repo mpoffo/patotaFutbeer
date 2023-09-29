@@ -266,9 +266,9 @@ function printSorteio() {
                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"> \
                 <script  src="https://code.jquery.com/jquery-3.7.1.min.js"></script> \
                 </head>');
-    a.document.write('<body><div class="row">');
+    a.document.write('<body><div class="container-fluid"><div class="row">');
     a.document.write(divContents);
-    a.document.write('</div></body></html>');
+    a.document.write('</div></div></body></html>');
     a.document.close();
     setTimeout(function () { a.print(); }, 300);
     //a.print();
