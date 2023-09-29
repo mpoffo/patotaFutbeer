@@ -41,84 +41,73 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col"><!--Time A-->
                         <div class="row">
-                            <div class="col blue text-center">
+                            <div class="col-5 blue text-center">
                                 <div class="subtitle">Time A</div>
                             </div>
-                            <div class="col-auto">
+                            <div class="col">
                                 <div title="Soma do score geral do time A"
                                     class="badge badge-big hide-mob d-print-none">{{somaScoreA}}</div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-1 offset-10">
+                            <div class="col">
                                 <input type="text" ng-model="patotaData.golsTimeA" class="placar form-control" readonly>
                             </div>
-                        </div>
+                        </div>                        
                         <div>
                             <div class="row" ng-repeat="jogador in patotaData.timeA">
                                 <div class="col">
                                     <img src="{{jogador.getFoto()}}">
                                     <span>{{jogador.nome}}</span>
                                 </div>
-                                <div class="col d-print-none">
-                                    <div class="row">
-                                        <div class="col" ng-click="gol(jogador,'-','timeA')">
-                                            <i class="fa-solid fa-minus plus-gol"></i>
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" ng-model="jogador.gols" class="gols form-control"
-                                                readonly>
-                                        </div>
-                                        <div class="col" ng-click="gol(jogador,'+','timeA')">
-                                            <i class="fa-solid fa-plus plus-gol"></i>
-                                        </div>
-                                    </div>
+                                <div class="col d-print-none" ng-click="gol(jogador,'-','timeA')">
+                                    <i class="fa-solid fa-minus plus-gol"></i>
                                 </div>
+                                <div class="col d-print-none">
+                                    <input type="text" ng-model="jogador.gols" class="gols"
+                                        readonly>
+                                </div>
+                                <div class="col d-print-none" ng-click="gol(jogador,'+','timeA')">
+                                    <i class="fa-solid fa-plus plus-gol"></i>
+                                </div>                                
                                 <div class="col">
                                     <span class="badge hide-mob d-print-none">Score: {{jogador.score}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col"><!--Time B-->
                         <div class="row">
-                            <div class="col red text-center">
-                                <div class="subtitle">Time B</div>
-                            </div>
-                            <div class="col-auto">
+                            <div class="col">
+                                <input type="text" ng-model="patotaData.golsTimeB" class="placar form-control" readonly>
+                            </div>                            
+                            <div class="col">
                                 <div title="Soma do score geral do time B"
                                     class="badge badge-big hide-mob d-print-none">{{somaScoreB}}</div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-1">
-                                <input type="text" ng-model="patotaData.golsTimeB" class="placar form-control" readonly>
+                            <div class="col-5 red text-center">
+                                <div class="subtitle">Time B</div>
                             </div>
                         </div>
+                        
                         <div>
-                            <div class="row" ng-repeat="jogador in patotaData.timeB">
-                                <div class="col">
-                                    <img src="{{jogador.getFoto()}}">
-                                    <span>{{jogador.nome}}</span>
+                            <div class="row" ng-repeat="jogador in patotaData.timeB">                                
+                                <div class="col" ng-click="gol(jogador,'-','timeB')">
+                                    <i class="fa-solid fa-minus plus-gol"></i>
                                 </div>
-                                <div class="col d-print-none">
-                                    <div class="row">
-                                        <div class="col" ng-click="gol(jogador,'-','timeB')">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </div>
-                                        <div class="col">
-                                            <input type="text" ng-model="jogador.gols" class="gols form-control"
-                                                readonly>
-                                        </div>
-                                        <div class="col" ng-click="gol(jogador,'+','timeB')">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </div>
-                                    </div>
+                                <div class="col">
+                                    <input type="text" ng-model="jogador.gols" class="gols"
+                                        readonly>
+                                </div>
+                                <div class="col" ng-click="gol(jogador,'+','timeB')">
+                                    <i class="fa-solid fa-plus plus-gol"></i>
                                 </div>
                                 <div class="col">
                                     <span class="badge hide-mob d-print-none">Score: {{jogador.score}}</span>
+                                </div>
+                                <div class="col">
+                                    <img src="{{jogador.getFoto()}}">
+                                    <span>{{jogador.nome}}</span>
                                 </div>
                             </div>
                         </div>
