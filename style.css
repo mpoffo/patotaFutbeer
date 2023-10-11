@@ -29,7 +29,7 @@
 }
 
 @media (max-width: 800px) {
-    body {
+    .zoom75 {
         zoom: 75%;
     }
 }
