@@ -212,6 +212,8 @@
                                         Score ataque <i class="fa-solid fa-question fa-shake"></i></th>
                                     <th class="hide-mob" title="Soma dos scores de ataque + defesa / 2">Score geral <i
                                             class="fa-solid fa-question fa-shake"></i></th>
+                                    <th></th>
+
                                 </tr>
                             </thead>
                             <tbody id="classjogadores">
@@ -222,7 +224,7 @@
                                     <td>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" ng-model="jogador.dentro"
-                                                ng-change="updateDatabase()">
+                                                ng-change="resort(); updateDatabase(); ">
                                         </div>
                                     </td>
                                     <td>
@@ -249,6 +251,7 @@
                                     <td class="hide-mob">{{jogador.scoreDefesa}}</td>
                                     <td class="hide-mob">{{jogador.scoreAtaque}}</td>
                                     <td class="hide-mob">{{jogador.score}}</td>
+                                    <td class="hide-mob"><i class="fa-solid fa-trash" ng-click="removeJogador(jogador.id)"></i></td>
                                 </tr>
                             </tbody>
                         </table>

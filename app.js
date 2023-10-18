@@ -53,13 +53,17 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             } else {
                 jogador.listPriority = 2;
             }
-            $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, 'listPriority');
+            $scope.resort()
             $scope.updateDatabase();
+        }
+
+        $scope.resort = function(){
+            $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, ['-dentro','listPriority']);
         }
 
         $scope.reset = function () {
             $scope.patotaData.jogadores = [
-                new Jogador("Marcos", true, 0, "GOL", 4, 3, 4),
+                //new Jogador("Marcos", true, 0, "GOL", 4, 3, 4),
                 new Jogador("Patrick", true, 0, "GOL", 1, 3, 4),
                 new Jogador("Rodrigo", true, 1, "DEFESA", 4, 3, 4),
                 new Jogador("Poffo", true, 1, "DEFESA", 4, 2, 3),
@@ -94,6 +98,15 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             $scope.updateDatabase();
         }
 
+        $scope.removeJogador = function(id) {
+            $scope.patotaData.jogadores.forEach(function(item, i){
+                if(item.id == id) {
+                    $scope.patotaData.jogadores.splice(i,1);
+                    return;
+                }
+            })
+        }
+
         $scope.populateDefensoresAtacantes = function () {
             $scope.patotaData.goleiros = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "GOL" && j.dentro });
             $scope.patotaData.defensores = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "DEFESA" && j.dentro });
@@ -109,7 +122,7 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
                 $scope.reset();
             }
             $scope.populateDefensoresAtacantes();
-            $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, 'listPriority');
+            $scope.patotaData.jogadores = $filter('orderBy')($scope.patotaData.jogadores, ['-dentro','listPriority']);
         });
 
         $scope.gol = function (jogador, acao, time) {

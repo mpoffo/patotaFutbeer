@@ -4,6 +4,7 @@ class Jogador {
     static PESOS_ATAQUE = { VELOCIDADE: 30, HABILIDADE: 45, MARCACAO: 25 };
 
     constructor(nome, dentro, listPriority, predominancia, velocidade, habilidade, marcacao, convidado, gols) {
+        this.id = (Math.random() + 1).toString(36).substring(7);
         this.nome = nome;
         this.dentro = dentro;
         this.listPriority = listPriority;
