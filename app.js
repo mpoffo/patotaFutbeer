@@ -62,20 +62,23 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
         }
 
         $scope.reset = function () {
+            //                               velocidade, habilidade, marcacao
             $scope.patotaData.jogadores = [
-                //new Jogador("Marcos", true, 0, "GOL", 4, 3, 4),
                 new Jogador("Patrick", true, 0, "GOL", 1, 3, 4),
+                new Jogador("Moises", true, 0, "GOL", 3, 3, 3),
                 new Jogador("Rodrigo", true, 1, "DEFESA", 4, 3, 4),
                 new Jogador("Poffo", true, 1, "DEFESA", 4, 2, 3),
                 new Jogador("Maicon", true, 1, "DEFESA", 2, 1, 5),
                 new Jogador("Fabio", true, 1, "DEFESA", 1, 1, 4),
                 new Jogador("Edelei", true, 1, "DEFESA", 2, 2, 2),
                 new Jogador("Chapolin", true, 1, "DEFESA", 4, 3, 3),
+                new Jogador("Elisson", true, 1, "DEFESA", 3, 3, 3),
                 new Jogador("Maninho", true, 2, "ATAQUE", 5, 4, 5),
                 new Jogador("Sergio", true, 2, "ATAQUE", 3, 3, 1),
                 new Jogador("Lucas", true, 2, "ATAQUE", 3, 3, 3),
                 new Jogador("Duca", true, 2, "ATAQUE", 2, 3, 3),
                 new Jogador("Ricardo", true, 2, "ATAQUE", 5, 5, 5),
+                new Jogador("Marlon", true, 2, "ATAQUE", 4, 4, 4),
                 new Jogador("Henrique", true, 2, "ATAQUE", 4, 2, 2)
             ];
             window.jogadores = $scope.patotaData.jogadores;
