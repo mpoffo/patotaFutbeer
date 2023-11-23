@@ -79,7 +79,8 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
                 new Jogador("Duca", true, 2, "ATAQUE", 2, 3, 3),
                 new Jogador("Ricardo", true, 2, "ATAQUE", 5, 5, 5),
                 new Jogador("Marlon", true, 2, "ATAQUE", 4, 4, 4),
-                new Jogador("Henrique", true, 2, "ATAQUE", 4, 2, 2)
+                new Jogador("Anderson", true, 2, "ATAQUE", 4, 4, 4),
+                new Jogador("Henrique", true, 2, "ATAQUE", 2, 3, 2)
             ];
             window.jogadores = $scope.patotaData.jogadores;
 
