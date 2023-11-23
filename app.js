@@ -115,6 +115,10 @@ futbeerApp.controller('FutbeerCtrl', ['$scope', '$timeout', '$http', '$filter',
             $scope.patotaData.goleiros = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "GOL" && j.dentro });
             $scope.patotaData.defensores = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "DEFESA" && j.dentro });
             $scope.patotaData.atacantes = [...$scope.patotaData.jogadores].filter(function (j) { return j.predominancia == "ATAQUE" && j.dentro });
+
+            
+            $scope.patotaData.defensores = $filter('orderBy')($scope.patotaData.defensores, ['-scoreDefesa']);
+            $scope.patotaData.atacantes = $filter('orderBy')($scope.patotaData.atacantes, ['-scoreAtaque']);
         }
 
         db.load().then(function (patotaData) {

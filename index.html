@@ -157,9 +157,9 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div class="row" ng-repeat="jogador in patotaData.defensores">
+                        <div class="row" ng-repeat="jogador in patotaData.defensores | orderBy:scoreDefesa">
                             <div class="col">
-                                <img src="{{jogador.getFoto()}}">
+                                <img src="{{jogador.getFoto()}}" title="foto">
                                 <span>{{jogador.nome}}</span>
                             </div>
                             <div class="col-auto">
@@ -168,9 +168,9 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="row" ng-repeat="jogador in patotaData.atacantes">
+                        <div class="row" ng-repeat="jogador in patotaData.atacantes | orderBy:scoreAtaque">
                             <div class="col">
-                                <img src="{{jogador.getFoto()}}">
+                                <img src="{{jogador.getFoto()}}" title="foto">
                                 <span>{{jogador.nome}}</span>
                             </div>
                             <div class="col-auto">
