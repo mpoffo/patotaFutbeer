@@ -21,16 +21,16 @@
             <div class="col" id="divsorteio">
                 <div class="row title justify-content-center">
                     <div class="col-10 text-center">
-                        <h2>Sorteio - <span class="data" ng-bind="patotaData.dataSorteio | date:'dd/MM/yyyy'"></span>
-				<img src="https://github.com/mpoffo/patotaFutbeer/blob/main/apito2.png?raw=true" onclick="iniciarContagem()" />
-			</h2>
+                        <h2>Sorteio - <span class="data" ng-bind="patotaData.dataSorteio | date:'dd/MM/yyyy'"></span></h2>
                     </div>
                     <div class="col-auto d-print-none">
-                        <button class="btn btn-success" ng-click="sortear()"
+                        <img src="https://github.com/mpoffo/patotaFutbeer/blob/main/apito2.png?raw=true" onclick="iniciarContagem()" />
+			    <button class="btn btn-success" ng-click="sortear()"
                             title="COMO FUNCIONA: O SORTEIO É ALEATÓRIO, PORÉM HAVENDO DIFERENÇA DA SOMA DO RANKING GERAL DOS JOGADORES SUPERIOR A 3, O SORTEIO É REFEITO AUTOMATICAMENTE">
                             Sortear <i class="fa-solid fa-shuffle fa-shake"></i></button>
                         <button class="btn btn-success" ng-click="zerarSorteioPlacar()">Zerar<i
                                 class="fa-solid fa-trash fa-shake"></i></button>
+			    
                     </div>
                 </div>
                 <div class="row"> <!--Alert-->
