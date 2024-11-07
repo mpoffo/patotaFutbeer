@@ -299,7 +299,7 @@ function iniciarContagem() {
       if (index === contagem.length - 1) {
         setTimeout(() => {          
           apito.play().then(iniciarCronometro).catch(error => console.error("Erro ao reproduzir o som:", error));
-        }, 4500);
+        }, 4000);
       }
     }, tempo);
     
