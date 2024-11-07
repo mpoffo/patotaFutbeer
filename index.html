@@ -285,7 +285,7 @@ function falar(texto) {
   mensagem.rate = 1.3;   // Aumenta a velocidade para soar mais animado
   mensagem.pitch = 2;  // Aumenta o tom para dar uma sensação mais alegre  
   window.vozes = sintetizador.getVoices();  
-  const vozPortugues = vozes.find(voz => voz.lang === 'pt-PT');
+  const vozPortugues = vozes.find(voz => voz.lang === 'pt-BR');
   mensagem.voice = vozPortugues;
   sintetizador.speak(mensagem);
 }
@@ -308,15 +308,14 @@ function iniciarContagem() {
   });
 }
 UM_MINUTO = 60000;
-UM_MINUTO = 10000;
 function iniciarCronometro() {
   let minutos = 0;
   const intervalo = setInterval(() => {
     minutos++;
-    if (minutos === 1) {//59
-      falar("Restam 60 segundos para o fim da partida! Bóraaa, Bóraaaa!!!");
+    if (minutos === 59) {//59
+      falar("Restam 60 segundos para o fim da partida! Bóra, Bóra!!!");
     }    
-    if (minutos === 2) { //60
+    if (minutos === 60) { //60
       clearInterval(intervalo);      	  
       apito.play();
 	  setTimeout(function(){
